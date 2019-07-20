@@ -1,0 +1,28 @@
+<div class="ors-route-point-popup">
+    <div class="item">
+        <span class="left">
+            <i class="fa fa-lg fa-arrows-h" tooltip-side="top" tooltip-template="{{('DISTANCE' | translate)}}{{' ('}}{{('DURATION' | translate)}}{{')'}}" tooltips="">
+            </i>
+        </span>
+        <span class="right" ng-bind-html="(distanceAtInterpolatedPoint | distance)">
+        </span>
+    </div>
+    <div class="item">
+        <span class="left">
+            <i class="fa fa-lg fa-road" tooltip-side="top" tooltip-template="{{ ('waytypes' | translate)}}{{' ('}}{{('SURFACE' | translate)}}{{' | '}}{{('suitability' | translate)}}{{')'}}" tooltips="">
+            </i>
+        </span>
+        <span class="right" ng-bind-html="'<strong>' + (interpolatedRoutePoint.extras.surface | translate) + '</strong> (' + (interpolatedRoutePoint.extras.waytypes | translate) +  ' | ' + interpolatedRoutePoint.extras.suitability + ')' ">
+        </span>
+    </div>
+    <div class="item" ng-if="interpolatedRoutePoint.heights">
+        <span class="left">
+            <i class="fa fa-lg fa-area-chart" tooltip-side="top" tooltip-template="{{('height' | translate)}}{{' & '}}{{('steepness' | translate)}}" tooltips="">
+            </i>
+        </span>
+        <span class="right" ng-bind-html="(interpolatedRoutePoint.heights.height | distance)">
+        </span>
+        <span class="right" ng-bind-html="(interpolatedRoutePoint.extras.steepness | trusted)">
+        </span>
+    </div>
+</div>

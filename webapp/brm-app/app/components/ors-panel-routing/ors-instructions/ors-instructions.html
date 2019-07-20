@@ -1,0 +1,54 @@
+<div class="ors-instructions-summary">
+    <div class="header">
+        <div class="left">
+            <div class="pointer" ng-click="$ctrl.showInstructions()">
+                <i class="fa fa-lg fa-arrow-left">
+                </i>
+            </div>
+        </div>
+        <div class="right">
+            <div>
+                <span ng-bind-html="('FROM' | translate)">
+                </span>
+                <span ng-bind-html="'<b>' + $ctrl.waypoints[0]._address + '</b>'">
+                </span>
+            </div>
+            <div>
+                <span ng-bind-html="('TO' | translate)">
+                </span>
+                <span ng-bind-html="'<b>' + $ctrl.waypoints[$ctrl.waypoints.length-1]._address + '</b>'">
+                </span>
+            </div>
+        </div>
+    </div>
+    <ors-loading>
+    </ors-loading>
+    <div ng-if="!$ctrl.isLoading" ng-include="'includes/route-summary.html'">
+    </div>
+    <div class="bottom-border"></div>
+    <div class="options-box" ng-if="$ctrl.route.extras">
+        <div class="pointer margin-bottom-6" ng-click="showRouteExtras = !showRouteExtras">
+            <i ng-class="$ctrl.getClass(showRouteExtras)">
+            </i>
+            <span ng-bind-html="('EXTRAS' | translate)">
+            </span>
+        </div>
+        <div class="collapsable" ng-class="{ showMe: showRouteExtras }">
+            <ors-route-extras current-route="$ctrl.route" ng-if="$ctrl.route.extras" route-index="$ctrl.routeIndex">
+            </ors-route-extras>
+        </div>
+    </div>
+</div>
+<div class="bottom-border"></div>
+<div class="ors-instructions-inner" ng-if="!$ctrl.isLoading">
+    <div ng-include="'includes/route-instructions.html'">
+    </div>
+</div>
+<ors-modal data-ng-show="$ctrl.showExport" show="$ctrl.showExport">
+    <ors-export-route-controls>
+    </ors-export-route-controls>
+</ors-modal>
+<ors-modal data-ng-if="$ctrl.showShare" show="$ctrl.showShare">
+    <ors-share>
+    </ors-share>
+</ors-modal>

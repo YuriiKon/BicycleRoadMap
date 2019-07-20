@@ -1,0 +1,9 @@
+<div ng-model="$ctrl.waypoints" class="ors-wp-list">
+     <div ng-repeat="waypoint in $ctrl.waypoints" ng-show="$ctrl.collapseWp($index)" class="ors-wp-container">
+     	<ors-aa-waypoint idx="$index" on-delete="$ctrl.deleteWaypoint(idx)" on-waypoints-changed="$ctrl.waypointsChanged()" waypoint="waypoint" waypoints="$ctrl.waypoints" show-add="$ctrl.showAdd" show-geocoding-panel="$ctrl.showGeocodingPanel">
+		</ors-aa-waypoint>
+	</div>
+</div>
+<div class="bottom-border"></div>
+<ors-aa-controls on-calculate="$ctrl.calculate()" active-profile="$ctrl.activeProfile" active-subgroup="$ctrl.activeSubgroup" current-options="$ctrl.currentOptions"></ors-aa-controls>
+<div class="bottom-border"></div>

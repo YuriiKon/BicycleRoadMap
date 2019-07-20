@@ -1,0 +1,49 @@
+<header>
+    <h1 ng-bind-html="('IMPORT_ROUTE' | translate)">
+    </h1>
+</header>
+<section>
+    <label class="ui icon mini button" for="importFiles">
+        <i class="fa fa-fw fa-upload icon">
+        </i>
+        {{'SELECT_FILES' | translate}}
+    </label>
+    <input accept=".gpx,.tcx,.gml,.kml,.geojson" id="importFiles" multiple="" name="file" onchange="angular.element(this).scope().$ctrl.fileNameChanged(this)" style="display: none;" type="file">
+    </input>
+</section>
+<div class="ui divider">
+</div>
+<section ng-show="$ctrl.uploadedFiles.length > 0">
+    <div>
+        <table class="ui celled striped table">
+            <thead>
+                <tr>
+                    <th ng-bind-html="('FILE_NAME' | translate)">
+                    </th>
+                    <th ng-bind-html="('PREVIEW' | translate)">
+                    </th>
+                    <th ng-bind-html="('IMPORT_TRACK' | translate)">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="file in $ctrl.uploadedFiles">
+                    <td ng-bind-html="file.name">
+                    </td>
+                    <td>
+                        <div class="ui fluid checkbox">
+                            <input ng-change="$ctrl.previewRoute(file)" ng-model="file.preview" type="checkbox">
+                                <label ng-bind-html="('TOGGLESHOW' | translate)">
+                                </label>
+                            </input>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="ui mini button" ng-bind-html="('IMPORT' | translate)" ng-click="$ctrl.importRoute(file)" type="submit">
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

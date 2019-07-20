@@ -1,0 +1,53 @@
+<ul>
+    <li style="float: left">
+        <a class="brand" href="https://maps.openrouteservice.org">
+            <img height="auto" ng-src="img/logo_white.png" style="margin: -4px 0 0 0;" width="80px"/>
+        </a>
+    </li>
+    <li>
+        <div class="ui simple dropdown item" ng-click="$ctrl.showSettings = !$ctrl.showSettings" tooltips tooltip-template="{{('SETTINGS' | translate)}}" tooltip-side="bottom">
+            <i class="fa fa-cog fa-lg">
+            </i>
+        </div>
+    </li>
+    <li>
+        <div class="ui simple dropdown item">
+            <i class="fa fa-lg fa-info-circle">
+            </i>
+            <div class="menu">
+                <a class="item" ng-click="$ctrl.showInfo = !$ctrl.showInfo">
+                    <i class="fa fa-fw fa-info">
+                    </i>
+                    <span ng-bind-html="'About <strong>openrouteservice.org</strong>'">
+                    </span>
+                </a>
+                <a class="item" href="https://openrouteservice.org" target="_blank">
+                    <i class="fa fa-fw fa-code">
+                    </i>
+                    <span ng-bind-html="'Openrouteservice API'">
+                    </span>
+                </a>
+                <a class="item" href="https://disaster.openrouteservice.org" target="_blank">
+                    <i class="fa fa-fw fa-fire">
+                    </i>
+                    <span ng-bind-html="'Openrouteservice for disasters'">
+                    </span>
+                </a>
+                <a class="item" href="https://ask.openrouteservice.org" target="_blank">
+                    <i class="fa fa-fw fa-question-circle">
+                    </i>
+                    <span ng-bind-html="'Ask Openrouteservice'">
+                    </span>
+                </a>
+            </div>
+        </div>
+    </li>
+</ul>
+<ors-modal data-ng-if="$ctrl.showSettings" show="$ctrl.showSettings">
+    <div ng-include="'includes/settings.html'">
+    </div>
+</ors-modal>
+<ors-modal data-ng-if="$ctrl.showInfo" show="$ctrl.showInfo">
+    <div ng-include="'includes/info.html'">
+    </div>
+</ors-modal>
