@@ -7,8 +7,8 @@
     <ProjectGuid>{DCB0FCA4-E5B4-446C-BD60-823F15E37E99}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BRM.DA</RootNamespace>
-    <AssemblyName>BRM.DA</AssemblyName>
+    <RootNamespace>BRM.DAL</RootNamespace>
+    <AssemblyName>BRM.DAL</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

@@ -1,4 +1,4 @@
-﻿using BRM.DA.Entities;
+﻿using BRM.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BRM.DA
+namespace BRM.DAL
 {
     public class BicycleContextInitializer : DropCreateDatabaseAlways<BicycleContext>
     {

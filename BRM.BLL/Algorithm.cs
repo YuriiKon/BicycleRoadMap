@@ -40,7 +40,7 @@ namespace BRM.BLL
             }
             else
             {
-                return null; //best route is not available
+                return new AllWay(Location, new Way { A = null, B = null }); //best route is not available
             }
         }
 
@@ -258,7 +258,7 @@ namespace BRM.BLL
             A = Location.A;
             B = Location.B;
             Sharing = BicycleStations.A;
-            Sharing = BicycleStations.B;
+            Parking = BicycleStations.B;
         }
     }
 }
