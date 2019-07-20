@@ -62,9 +62,9 @@ angular.module("orsApp.ors-waypoint", []).component("orsWaypoint", {
       };
       ctrl.getPlaceholder = () => {
         let placeholder;
-        if (ctrl.idx == 0) placeholder = "Start";
-        else if (ctrl.idx == ctrl.waypoints.length - 1) placeholder = "End";
-        else placeholder = "Via";
+        if (ctrl.idx == 0) placeholder = "Откуда";
+        else if (ctrl.idx == ctrl.waypoints.length - 1) placeholder = "Куда";
+        else placeholder = "";
         return placeholder;
       };
       // ctrl.$doCheck = () => {

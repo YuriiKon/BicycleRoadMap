@@ -388,18 +388,6 @@ angular.module("orsApp").directive("orsMap", () => {
           if (!$scope.smallScreen)
             $scope.mapModel.map.addControl($scope.signupBox);
         }, 300000);
-        // brand
-        $scope.brand = L.control({
-          position: "topleft"
-        });
-        $scope.brand.onAdd = function(map) {
-          var divs = L.DomUtil.create("div", "ors-brand-small");
-          divs.innerHTML = '<img src="img/brand.png">';
-          return divs;
-        };
-        $timeout(function() {
-          $scope.mapModel.map.addControl($scope.brand);
-        }, 500);
         // hack to remove measure string from box
         const el = angular
           .element(document.querySelector(".js-toggle"))
