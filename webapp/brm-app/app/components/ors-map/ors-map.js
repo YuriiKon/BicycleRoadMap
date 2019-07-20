@@ -276,7 +276,7 @@ angular.module("orsApp").directive("orsMap", () => {
         }).addTo($scope.mapModel.map);
         L.control.scale().addTo($scope.mapModel.map);
         /* AVOID AREA CONTROLLER */
-        L.NewPolygonControl = L.Control.extend({
+        /*L.NewPolygonControl = L.Control.extend({
           options: {
             position: "topright"
           },
@@ -299,7 +299,7 @@ angular.module("orsApp").directive("orsMap", () => {
             );
             return container;
           }
-        });
+        });*/
         let measureControlOptions = {
           position: "bottomleft",
           primaryLengthUnit: "meters",
@@ -2061,7 +2061,7 @@ angular.module("orsApp").directive("orsSignupBox", [
   $translate => {
     return {
       restrict: "E",
-      template: `<div ng-attr-class="{{ 'ui message ors-map-message fade green' }}" ng-show="show">
+      template:`<div ng-attr-class="{{ 'ui message ors-map-message fade green' }}" ng-show="show">
             <i class="fa fa-close flright" data-ng-click="show = !show; $event.stopPropagation();"></i>
             <div class="header" ng-bind-html="('LOCALE_SIGNUP_HEADER' | translate)">
             </div>
@@ -2069,7 +2069,7 @@ angular.module("orsApp").directive("orsSignupBox", [
                 <span ng-bind-html="('LOCALE_SIGNUP_MESSAGE' | translate)">
                 </span>
             </div>
-        </div>`,
+        </div>,
       link: (scope, elem, attr) => {
         scope.show = true;
       }
