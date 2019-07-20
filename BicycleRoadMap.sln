@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BicycleRoadMap", "BicycleRoadMap\BicycleRoadMap.csproj", "{17B00B33-77F2-4460-90E6-12BD7E2529A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BRM.DAL", "BRM.DA\BRM.DAL.csproj", "{DCB0FCA4-E5B4-446C-BD60-823F15E37E99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BRM.BLL", "BRM.BLL\BRM.BLL.csproj", "{91676DF1-1F18-4389-AE09-BC63CAA96F7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{17B00B33-77F2-4460-90E6-12BD7E2529A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17B00B33-77F2-4460-90E6-12BD7E2529A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17B00B33-77F2-4460-90E6-12BD7E2529A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCB0FCA4-E5B4-446C-BD60-823F15E37E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB0FCA4-E5B4-446C-BD60-823F15E37E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB0FCA4-E5B4-446C-BD60-823F15E37E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB0FCA4-E5B4-446C-BD60-823F15E37E99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91676DF1-1F18-4389-AE09-BC63CAA96F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91676DF1-1F18-4389-AE09-BC63CAA96F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91676DF1-1F18-4389-AE09-BC63CAA96F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91676DF1-1F18-4389-AE09-BC63CAA96F7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
