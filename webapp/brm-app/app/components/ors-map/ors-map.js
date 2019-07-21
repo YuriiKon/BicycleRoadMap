@@ -253,7 +253,7 @@ angular.module("orsApp").directive("orsMap", () => {
               ),
               link = L.DomUtil.create("a", "leaflet-fullwidth", container);
             link.href = "#";
-            link.title = "Hide/show menu";
+            link.title = "Показать/скрыть меню";
             L.DomEvent.on(link, "click", L.DomEvent.stop).on(
               link,
               "click",

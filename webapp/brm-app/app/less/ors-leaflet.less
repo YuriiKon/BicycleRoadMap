@@ -42,6 +42,7 @@
 }
 
 div.leaflet-control-measure.leaflet-control {
+    display: none;
     border: 2px solid rgba(0, 0, 0, 0.2) !important;
     box-shadow: none !important;
     border-radius: 0px !important;
@@ -90,6 +91,10 @@ a.leaflet-control-layers-toggle, a.leaflet-avoid-area, a.leaflet-fullwidth, div.
     text-indent: inherit !important;
 }
 
+a.leaflet-avoid-area{
+    display: none;
+}
+
 div.leaflet-control-measure.leaflet-control>a:before {
     content: "\f040";
     font-family: @fa;
@@ -97,6 +102,10 @@ div.leaflet-control-measure.leaflet-control>a:before {
     cursor: pointer;
     text-align: center;
     padding-top: 5px;
+}
+
+a.leaflet-control-layers-toggle{
+    display: none;
 }
 
 a.leaflet-control-layers-toggle:before {
@@ -125,6 +134,7 @@ a.leaflet-fullwidth:before {
 }
 
 .angular-control-leaflet {
+    display: none;
     cursor: pointer;
 }
 
