@@ -19,8 +19,6 @@ namespace BRM.DAL
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-
             modelBuilder.Entity<Route>()
                 .HasRequired(s => s.FinishPoint).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<Route>()

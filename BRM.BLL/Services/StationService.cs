@@ -3,7 +3,9 @@ using BRM.BLL.DTOs;
 using BRM.BLL.Interfaces;
 using BRM.DAL;
 using BRM.DAL.Entities;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace BRM.BLL.Services
 {
@@ -20,8 +22,23 @@ namespace BRM.BLL.Services
 
         public async Task AddStation(BicycleStation model)
         {
-            _db.Stations.Add(model);
+            var entity = _db.Stations.Add(model);
             await _db.SaveChangesAsync();
+
+            var routes =  Algorithm.AddRoutes(entity, GetAllStations());
+            _db.Routes.AddRange(routes);
+
+            await _db.SaveChangesAsync();
+        }
+
+        public List<BicycleStation> GetAllStations()
+        {
+            return _db.Stations.Select(s => s).ToList(); 
+        }
+
+        public async Task<List<BicycleStation>> GetStations(int startLatitude, int startLongitude, int finishLatitude, int finishLongitude)
+        {
+            return _db.Stations.Select(s => s).ToList();
         }
     }
 }

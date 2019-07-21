@@ -1,14 +1,23 @@
-﻿using System;
+﻿using BRM.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RestSharp;
 
 namespace BRM.BLL
 {
     public class Algorithm
     {
         private readonly int maxBicycleDistance = 10;
+
+
+        private readonly static string api_key = "5b3ce3597851110001cf6248bc42568680c942a190d03a022ffb8878";
 
         /// <summary>
         /// A is start
@@ -220,48 +229,108 @@ namespace BRM.BLL
         //TODO API: B to PARKING. If less than 1.5km true, otherwise false
         private bool RequestAPI(Point B, Point Parking) { return true; }
 
-    }
-
-    public class Way
-    {
-        public Point A { get; set; }
-
-        public Point B { get; set; }
-    }
-
-    public class SharingParking
-    {
-        public Point Sharing { get; set; }
-
-        public Point Parking { get; set; }
-
-        public TimeSpan Time { get; set; }
-
-        public double Distance { get; set; }
-    }
-
-    public class Point
-    {
-        public string Latitude { get; set; }
-
-        public string Longitude { get; set; }
-    }
-
-    public class AllWay : Way
-    {
-        public Point Sharing { get; set; }
-
-        public Point Parking { get; set; }
-
-        public AllWay(Way Location, Way BicycleStations)
+        public static List<Route> AddRoutes(BicycleStation model, List<BicycleStation> allStations)
         {
-            A = Location.A;
-            B = Location.B;
-            Sharing = BicycleStations.A;
-            Parking = BicycleStations.B;
+            List<Route> newRoutes = new List<Route>();
+            var baseAddress = new Uri("https://api.openrouteservice.org");
+            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+            {
+                bool c = httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8");
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Authorization", api_key);
+
+
+                httpClient.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue() { NoCache = true };
+                httpClient.DefaultRequestHeaders.Host = "api.openrouteservice.org";
+
+                var client = new RestClient("https://api.openrouteservice.org/v2/directions/cycling-regular");
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("cache-control", "no-cache");
+                request.AddHeader("Connection", "keep-alive");
+                request.AddHeader("content-length", "61");
+                request.AddHeader("accept-encoding", "gzip, deflate");
+                request.AddHeader("Host", "api.openrouteservice.org");
+                request.AddHeader("Postman-Token", "56194758-9eba-443a-b1bd-4acb440421f2,1418ba03-d208-4e07-85ff-a0030e059712");
+                request.AddHeader("Cache-Control", "no-cache");
+                request.AddHeader("Accept", "*/*");
+                request.AddHeader("User-Agent", "PostmanRuntime/7.15.0");
+                request.AddHeader("Authorization", "5b3ce3597851110001cf6248bc42568680c942a190d03a022ffb8878");
+                request.AddHeader("Content-Type", "application/json");
+
+                foreach (var station in allStations)
+                {
+                    if (station.Latitude == model.Latitude && station.Longitude == model.Longitude) continue;
+                    request.AddParameter("undefined", "{\"coordinates\":[[" + model.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + ","
+                        + model.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + "],["
+                        + station.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + ","
+                        + station.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]]}", ParameterType.RequestBody);
+                    IRestResponse response = client.Execute(request);
+                    var temp = (JObject)JsonConvert.DeserializeObject(response.Content);
+
+                    var distance = temp["routes"][0]["summary"]["distance"].Value<double>();
+                    var duration = temp["routes"][0]["summary"]["duration"].Value<double>();
+                    
+                    newRoutes.Add(new Route() { StartPoint = model, FinishPoint = station, Distance = distance, Duration = duration });
+
+                    request.AddParameter("undefined", "{\"coordinates\":[[" + station.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + ","
+                        + station.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + "],["
+                        + model.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + ","
+                        + model.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]]}", ParameterType.RequestBody);
+                    response = client.Execute(request);
+                    temp = (JObject)JsonConvert.DeserializeObject(response.Content);
+
+                    distance = temp["routes"][0]["summary"]["distance"].Value<double>();
+                    duration = temp["routes"][0]["summary"]["duration"].Value<double>();
+
+                    newRoutes.Add(new Route() { StartPoint = station, FinishPoint = model, Distance = distance, Duration = duration });
+                }
+            }
+            return newRoutes;
         }
     }
-}
+
+        public class Way
+        {
+            public Point A { get; set; }
+
+            public Point B { get; set; }
+        }
+
+        public class SharingParking
+        {
+            public Point Sharing { get; set; }
+
+            public Point Parking { get; set; }
+
+            public TimeSpan Time { get; set; }
+
+            public double Distance { get; set; }
+        }
+
+        public class Point
+        {
+            public string Latitude { get; set; }
+
+            public string Longitude { get; set; }
+        }
+
+        public class AllWay : Way
+        {
+            public Point Sharing { get; set; }
+
+            public Point Parking { get; set; }
+
+            public AllWay(Way Location, Way BicycleStations)
+            {
+                A = Location.A;
+                B = Location.B;
+                Sharing = BicycleStations.A;
+                Parking = BicycleStations.B;
+            }
+        }
+
+    }
+
 //new Point()
 //{
 //    Latitude = "51.548678",

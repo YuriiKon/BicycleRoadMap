@@ -13,6 +13,7 @@ using System.Web.Http;
 
 namespace BicycleRoadMap.Controllers
 {
+    [RoutePrefix("api/stations")]
     public class StationsController : ApiController
     {
         private readonly IStationService _service;
@@ -29,6 +30,14 @@ namespace BicycleRoadMap.Controllers
         public string Get(int startLatitude, int startLongitude, int finishLatitude, int finishLongitude)
         {
             return "value";
+        }
+
+        // GET api/stations/GetAll
+        [HttpGet]
+        [Route("GetAll")]
+        public List<BicycleStation> GetAllStations()
+        {
+            return _service.GetAllStations();
         }
 
         // GET api/stations/5

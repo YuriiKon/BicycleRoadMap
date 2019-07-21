@@ -11,5 +11,7 @@ namespace BRM.BLL.Interfaces
     public interface IStationService
     {
         Task AddStation(BicycleStation model);
+        List<BicycleStation> GetAllStations();
+        Task<List<BicycleStation>> GetStations(int startLatitude, int startLongitude, int finishLatitude, int finishLongitude);
     }
 }
