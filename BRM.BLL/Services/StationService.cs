@@ -17,6 +17,9 @@ namespace BRM.BLL.Services
         public StationService(BicycleContext db/*, IMapper mapper*/)
         {
             _db = db;
+            Algorithm.BicycleStations = GetAllStations();
+            Algorithm.WayStations = GetAllStations();
+
             //_mapper = mapper;
         }
 

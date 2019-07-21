@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
@@ -18,6 +16,10 @@ namespace BRM.BLL
 
 
         private readonly static string api_key = "5b3ce3597851110001cf6248bc42568680c942a190d03a022ffb8878";
+        
+        public static List<BicycleStation> BicycleStations { get; set; }
+
+        public static List<BicycleStation> WayStations { get; set; } 
 
         /// <summary>
         /// A is start
@@ -51,7 +53,7 @@ namespace BRM.BLL
             {
                 return new AllWay(Location, new Way { A = null, B = null }); //best route is not available
             }
-        }
+        }        
 
         /// <summary>
         /// Get the shortest A-S-P-B way. Less than 15km
@@ -61,8 +63,8 @@ namespace BRM.BLL
         public Way GetBicycleWay()
         {
             List<SharingParking> allPoints = GetAllSP(); //TODO: GET ALL SHARING-PARKING POINTS TABLE
-            List<Point> allParking = GetPossibleParking(); //TODO: GET ALL BICYCLE STATIONS
 
+            List<Point> allParking = GetPossibleParking(); // GET ALL BICYCLE STATIONS
             List<Point> possibleParking = new List<Point>(); //POSSIBLE PARKING POINTS (< 1.5km). HIGH PRORITY 
             List<SharingParking> possiblePoints = new List<SharingParking>(); //GET ALL POSSIBLE SHARING-PARKING POINTS
             foreach (var item in allParking)
@@ -107,127 +109,175 @@ namespace BRM.BLL
         //TODO Get all sharing points. Directed graph (n*(n-1))-nodes
         private List<SharingParking> GetAllSP()
         {
-            return new List<SharingParking>
+            List<SharingParking> st = new List<SharingParking>();
+            foreach(var item in WayStations)
             {
-                new SharingParking()
+                var SP = new SharingParking()
                 {
                     Sharing = new Point()
                     {
-                        Latitude = "51.548678",
-                        Longitude = "46.007026"
-                    },
-                    Parking = new Point()
-                    {
-                        Latitude = "51.540841",
-                        Longitude = "46.013070"
-                    },
-                    Distance = 10,
-                    Time = new TimeSpan(0, 10, 0)
-                },
-                new SharingParking()
-                {
+                        Latitude = item.Latitude,
+                        Longitude = item.Longitude
+                    }
+                };
+                item.Routes.Select(s => new SharingParking() {
                     Sharing = new Point()
                     {
-                        Latitude = "51.548678",
-                        Longitude = "46.007026"
+                        Latitude = s.StartPoint.Latitude,
+                        Longitude = s.StartPoint.Longitude
                     },
-                    Parking = new Point()
-                    {
-                        Latitude = "51.527946",
-                        Longitude = "46.000740"
+                    Parking = new Point() {
+                        Latitude = s.FinishPoint.Latitude,
+                        Longitude = s.FinishPoint.Longitude
                     },
-                    Distance = 15,
-                    Time = new TimeSpan(0, 25, 0)
-                },
-                new SharingParking()
-                {
-                    Sharing = new Point()
-                    {
-                        Latitude = "51.527946",
-                        Longitude = "46.000740"
-                    },
-                    Parking = new Point()
-                    {
-                        Latitude = "51.527946",
-                        Longitude = "46.000740"
-                    },
-                    Distance = 5,
-                    Time = new TimeSpan(0, 10, 0)
-                },
+                    Distance = s.Distance,
+                    Time = s.Duration
+                });
+            }
+            return st;
+            //return new List<SharingParking>
+            //{
+            //    new SharingParking()
+            //    {
+            //        Sharing = new Point()
+            //        {
+            //            Latitude = "51.548678",
+            //            Longitude = "46.007026"
+            //        },
+            //        Parking = new Point()
+            //        {
+            //            Latitude = "51.540841",
+            //            Longitude = "46.013070"
+            //        },
+            //        Distance = 10,
+            //        Time = new TimeSpan(0, 10, 0)
+            //    },
+            //    new SharingParking()
+            //    {
+            //        Sharing = new Point()
+            //        {
+            //            Latitude = "51.548678",
+            //            Longitude = "46.007026"
+            //        },
+            //        Parking = new Point()
+            //        {
+            //            Latitude = "51.527946",
+            //            Longitude = "46.000740"
+            //        },
+            //        Distance = 15,
+            //        Time = new TimeSpan(0, 25, 0)
+            //    },
+            //    new SharingParking()
+            //    {
+            //        Sharing = new Point()
+            //        {
+            //            Latitude = "51.527946",
+            //            Longitude = "46.000740"
+            //        },
+            //        Parking = new Point()
+            //        {
+            //            Latitude = "51.527946",
+            //            Longitude = "46.000740"
+            //        },
+            //        Distance = 5,
+            //        Time = new TimeSpan(0, 10, 0)
+            //    },
 
-                new SharingParking()
-                {
-                    Sharing = new Point()
-                    {
-                        Latitude = "51.540841",
-                        Longitude = "46.013070"
-                    },
-                    Parking = new Point()
-                    {
-                        Latitude = "51.548678",
-                        Longitude = "46.007026"
-                    },
-                    Distance = 10,
-                    Time = new TimeSpan(0, 10, 0)
-                },
-                new SharingParking()
-                {
-                    Sharing = new Point()
-                    {
-                        Latitude = "51.527946",
-                        Longitude = "46.000740"
-                    },
-                    Parking = new Point()
-                    {
-                        Latitude = "51.548678",
-                        Longitude = "46.007026"
-                    },
-                    Distance = 17,
-                    Time = new TimeSpan(0, 28, 0)
-                },
-                new SharingParking()
-                {
-                    Sharing = new Point()
-                    {
-                        Latitude = "51.527946",
-                        Longitude = "46.000740"
-                    },
-                    Parking = new Point()
-                    {
-                        Latitude = "51.527946",
-                        Longitude = "46.000740"
-                    },
-                    Distance = 5,
-                    Time = new TimeSpan(0, 10, 0)
-                }
-            };
+            //    new SharingParking()
+            //    {
+            //        Sharing = new Point()
+            //        {
+            //            Latitude = "51.540841",
+            //            Longitude = "46.013070"
+            //        },
+            //        Parking = new Point()
+            //        {
+            //            Latitude = "51.548678",
+            //            Longitude = "46.007026"
+            //        },
+            //        Distance = 10,
+            //        Time = new TimeSpan(0, 10, 0)
+            //    },
+            //    new SharingParking()
+            //    {
+            //        Sharing = new Point()
+            //        {
+            //            Latitude = "51.527946",
+            //            Longitude = "46.000740"
+            //        },
+            //        Parking = new Point()
+            //        {
+            //            Latitude = "51.548678",
+            //            Longitude = "46.007026"
+            //        },
+            //        Distance = 17,
+            //        Time = new TimeSpan(0, 28, 0)
+            //    },
+            //    new SharingParking()
+            //    {
+            //        Sharing = new Point()
+            //        {
+            //            Latitude = "51.527946",
+            //            Longitude = "46.000740"
+            //        },
+            //        Parking = new Point()
+            //        {
+            //            Latitude = "51.527946",
+            //            Longitude = "46.000740"
+            //        },
+            //        Distance = 5,
+            //        Time = new TimeSpan(0, 10, 0)
+            //    }
+            //};
         }
 
-        //TODO Get all bicycle stations
+        // Get all bicycle stations
         private List<Point> GetPossibleParking()
         {
-            return new List<Point>()
+            return BicycleStations.Select(x => new Point
             {
-                new Point()
-                {
-                    Latitude = "51.540841",
-                    Longitude = "46.013070"
-                },
-                new Point()
-                {
-                    Latitude = "51.548678",
-                    Longitude = "46.007026"
-                },
-                new Point()
-                {
-                    Latitude = "51.527946",
-                    Longitude = "46.000740"
-                }
-            };
+                Latitude = x.Latitude,
+                Longitude = x.Longitude
+            }).ToList();
         }
 
         //TODO API: B to PARKING. If less than 1.5km true, otherwise false
-        private bool RequestAPI(Point B, Point Parking) { return true; }
+        private bool RequestAPI(Point B, Point Parking)
+        {
+            var baseAddress = new Uri("https://api.openrouteservice.org");
+            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
+            {
+                bool c = httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json, application/geo+json, application/gpx+xml, img/png; charset=utf-8");
+                httpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Authorization", api_key);
+                httpClient.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue() { NoCache = true };
+                httpClient.DefaultRequestHeaders.Host = "api.openrouteservice.org";
+                var client = new RestClient("https://api.openrouteservice.org/v2/directions/cycling-regular");
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("cache-control", "no-cache");
+                request.AddHeader("Connection", "keep-alive");
+                request.AddHeader("content-length", "61");
+                request.AddHeader("accept-encoding", "gzip, deflate");
+                request.AddHeader("Host", "api.openrouteservice.org");
+                request.AddHeader("Postman-Token", "56194758-9eba-443a-b1bd-4acb440421f2,1418ba03-d208-4e07-85ff-a0030e059712");
+                request.AddHeader("Cache-Control", "no-cache");
+                request.AddHeader("Accept", "*/*");
+                request.AddHeader("User-Agent", "PostmanRuntime/7.15.0");
+                request.AddHeader("Authorization", "5b3ce3597851110001cf6248bc42568680c942a190d03a022ffb8878");
+                request.AddHeader("Content-Type", "application/json");
+
+                request.AddParameter("undefined", "{\"coordinates\":[[" + B.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + ","
+                        + B.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + "],["
+                        + Parking.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + ","
+                        + Parking.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]]}", ParameterType.RequestBody);
+                IRestResponse response = client.Execute(request);
+                var temp = (JObject)JsonConvert.DeserializeObject(response.Content);
+
+                var distance = temp["routes"][0]["summary"]["distance"].Value<double>();
+                var duration = temp["routes"][0]["summary"]["duration"].Value<double>();
+                return distance < 15000 ? true : false;
+            }
+        }
 
         public static List<Route> AddRoutes(BicycleStation model, List<BicycleStation> allStations)
         {
@@ -302,16 +352,16 @@ namespace BRM.BLL
 
             public Point Parking { get; set; }
 
-            public TimeSpan Time { get; set; }
+            public double Time { get; set; }
 
             public double Distance { get; set; }
         }
 
         public class Point
         {
-            public string Latitude { get; set; }
+            public double Latitude { get; set; }
 
-            public string Longitude { get; set; }
+            public double Longitude { get; set; }
         }
 
         public class AllWay : Way
