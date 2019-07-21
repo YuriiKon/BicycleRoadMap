@@ -31,12 +31,20 @@ namespace BRM.BLL.Services
             await _db.SaveChangesAsync();
         }
 
+        public async Task AddListStations(List<BicycleStation> models)
+        {
+            foreach (var model in models)
+            {
+                await AddStation(model);
+            }
+        }
+
         public List<BicycleStation> GetAllStations()
         {
             return _db.Stations.Select(s => s).ToList(); 
         }
 
-        public async Task<List<BicycleStation>> GetStations(int startLatitude, int startLongitude, int finishLatitude, int finishLongitude)
+        public async Task<List<BicycleStation>> GetStations(int startLongitude, int startLatitude, int finishLatitude, int finishLongitude)
         {
             return _db.Stations.Select(s => s).ToList();
         }

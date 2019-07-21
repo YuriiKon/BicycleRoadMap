@@ -13,5 +13,6 @@ namespace BRM.BLL.Interfaces
         Task AddStation(BicycleStation model);
         List<BicycleStation> GetAllStations();
         Task<List<BicycleStation>> GetStations(int startLatitude, int startLongitude, int finishLatitude, int finishLongitude);
+        Task AddListStations(List<BicycleStation> models);
     }
 }

@@ -50,6 +50,15 @@ namespace BicycleRoadMap.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("AddListStations")]
+        public async Task<IHttpActionResult> AddStations(List<BicycleStation> model)
+        {
+
+            await _service.AddListStations(model);
+
+            return Ok();
+        }
 
     }
 }
