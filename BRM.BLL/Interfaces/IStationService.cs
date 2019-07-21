@@ -1,9 +1,5 @@
-﻿using BRM.BLL.DTOs;
-using BRM.DAL.Entities;
-using System;
+﻿using BRM.DAL.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BRM.BLL.Interfaces
@@ -12,7 +8,10 @@ namespace BRM.BLL.Interfaces
     {
         Task AddStation(BicycleStation model);
         List<BicycleStation> GetAllStations();
-        Task<List<BicycleStation>> GetStations(int startLatitude, int startLongitude, int finishLatitude, int finishLongitude);
+        Task<AllWay> GetStations(double startLatitude, double startLongitude, double finishLatitude, double finishLongitude);
         Task AddListStations(List<BicycleStation> models);
+        BicycleStation GetStation(int id);
+        List<Route> GetAllRoutes();
+        List<Statistics> GetStatistics();
     }
 }

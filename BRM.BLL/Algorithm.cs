@@ -12,14 +12,14 @@ namespace BRM.BLL
 {
     public class Algorithm
     {
-        private readonly int maxBicycleDistance = 10;
+        private readonly int maxBicycleDistance = 10000;
 
 
         private readonly static string api_key = "5b3ce3597851110001cf6248bc42568680c942a190d03a022ffb8878";
         
         public static List<BicycleStation> BicycleStations { get; set; }
 
-        public static List<BicycleStation> WayStations { get; set; } 
+        public static List<Route> WayStations { get; set; } 
 
         /// <summary>
         /// A is start
@@ -110,125 +110,43 @@ namespace BRM.BLL
         private List<SharingParking> GetAllSP()
         {
             List<SharingParking> st = new List<SharingParking>();
-            foreach(var item in WayStations)
+            foreach(Route item in WayStations)
             {
-                var SP = new SharingParking()
+                SharingParking sharingParking = new SharingParking();
+                var sharing = BicycleStations.FirstOrDefault(x => x.Id == item.StartPointId);
+                var parking = BicycleStations.FirstOrDefault(x => x.Id == item.FinishPointId);
+                sharingParking.Sharing = new Point()
                 {
-                    Sharing = new Point()
-                    {
-                        Latitude = item.Latitude,
-                        Longitude = item.Longitude
-                    }
+                    Latitude = sharing.Latitude,
+                    Longitude = sharing.Longitude
                 };
-                item.Routes.Select(s => new SharingParking() {
-                    Sharing = new Point()
-                    {
-                        Latitude = s.StartPoint.Latitude,
-                        Longitude = s.StartPoint.Longitude
-                    },
-                    Parking = new Point() {
-                        Latitude = s.FinishPoint.Latitude,
-                        Longitude = s.FinishPoint.Longitude
-                    },
-                    Distance = s.Distance,
-                    Time = s.Duration
-                });
+                sharingParking.Parking = new Point()
+                {
+                    Latitude = parking.Latitude,
+                    Longitude = parking.Longitude
+                };
+                sharingParking.Time = item.Duration;
+                sharingParking.Distance = item.Distance;
+                st.Add(sharingParking);
             }
-            return st;
-            //return new List<SharingParking>
+            //st = WayStations.Select(x => new SharingParking()
             //{
-            //    new SharingParking()
+            //    Sharing = new Point()
             //    {
-            //        Sharing = new Point()
-            //        {
-            //            Latitude = "51.548678",
-            //            Longitude = "46.007026"
-            //        },
-            //        Parking = new Point()
-            //        {
-            //            Latitude = "51.540841",
-            //            Longitude = "46.013070"
-            //        },
-            //        Distance = 10,
-            //        Time = new TimeSpan(0, 10, 0)
+            //        Latitude = x.StartPoint.Latitude,
+            //        Longitude = x.FinishPoint.Longitude
             //    },
-            //    new SharingParking()
+            //    Parking = new Point()
             //    {
-            //        Sharing = new Point()
-            //        {
-            //            Latitude = "51.548678",
-            //            Longitude = "46.007026"
-            //        },
-            //        Parking = new Point()
-            //        {
-            //            Latitude = "51.527946",
-            //            Longitude = "46.000740"
-            //        },
-            //        Distance = 15,
-            //        Time = new TimeSpan(0, 25, 0)
+            //        Latitude = x.StartPoint.Latitude,
+            //        Longitude = x.FinishPoint.Longitude
             //    },
-            //    new SharingParking()
-            //    {
-            //        Sharing = new Point()
-            //        {
-            //            Latitude = "51.527946",
-            //            Longitude = "46.000740"
-            //        },
-            //        Parking = new Point()
-            //        {
-            //            Latitude = "51.527946",
-            //            Longitude = "46.000740"
-            //        },
-            //        Distance = 5,
-            //        Time = new TimeSpan(0, 10, 0)
-            //    },
-
-            //    new SharingParking()
-            //    {
-            //        Sharing = new Point()
-            //        {
-            //            Latitude = "51.540841",
-            //            Longitude = "46.013070"
-            //        },
-            //        Parking = new Point()
-            //        {
-            //            Latitude = "51.548678",
-            //            Longitude = "46.007026"
-            //        },
-            //        Distance = 10,
-            //        Time = new TimeSpan(0, 10, 0)
-            //    },
-            //    new SharingParking()
-            //    {
-            //        Sharing = new Point()
-            //        {
-            //            Latitude = "51.527946",
-            //            Longitude = "46.000740"
-            //        },
-            //        Parking = new Point()
-            //        {
-            //            Latitude = "51.548678",
-            //            Longitude = "46.007026"
-            //        },
-            //        Distance = 17,
-            //        Time = new TimeSpan(0, 28, 0)
-            //    },
-            //    new SharingParking()
-            //    {
-            //        Sharing = new Point()
-            //        {
-            //            Latitude = "51.527946",
-            //            Longitude = "46.000740"
-            //        },
-            //        Parking = new Point()
-            //        {
-            //            Latitude = "51.527946",
-            //            Longitude = "46.000740"
-            //        },
-            //        Distance = 5,
-            //        Time = new TimeSpan(0, 10, 0)
-            //    }
-            //};
+            //    Distance = x.Distance,
+            //    Time = x.Duration
+            //}).ToList();
+            
+            return st;
+            
         }
 
         // Get all bicycle stations
@@ -275,7 +193,7 @@ namespace BRM.BLL
 
                 var distance = temp["routes"][0]["summary"]["distance"].Value<double>();
                 var duration = temp["routes"][0]["summary"]["duration"].Value<double>();
-                return distance < 15000 ? true : false;
+                return distance < 1500 ? true : false;
             }
         }
 

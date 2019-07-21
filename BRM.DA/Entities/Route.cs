@@ -18,8 +18,8 @@ namespace BRM.DAL.Entities
         public int FinishPointId { get; set; }
 
         [ForeignKey("StartPointId")]
-        public BicycleStation StartPoint { get; set; }
+        public virtual BicycleStation StartPoint { get; set; }
         [ForeignKey("FinishPointId")]
-        public BicycleStation FinishPoint { get; set; }
+        public virtual BicycleStation FinishPoint { get; set; }
     }
 }

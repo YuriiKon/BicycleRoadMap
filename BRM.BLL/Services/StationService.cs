@@ -18,7 +18,7 @@ namespace BRM.BLL.Services
         {
             _db = db;
             Algorithm.BicycleStations = GetAllStations();
-            Algorithm.WayStations = GetAllStations();
+            Algorithm.WayStations = GetAllRoutes();
 
             //_mapper = mapper;
         }
@@ -47,9 +47,50 @@ namespace BRM.BLL.Services
             return _db.Stations.Select(s => s).ToList(); 
         }
 
-        public async Task<List<BicycleStation>> GetStations(int startLongitude, int startLatitude, int finishLatitude, int finishLongitude)
+        public BicycleStation GetStation(int id)
         {
-            return _db.Stations.Select(s => s).ToList();
+            return _db.Stations.FirstOrDefault(x => x.Id == id);
+        }
+
+        public List<Route> GetAllRoutes()
+        {
+            return _db.Routes.Select(s => s).ToList();
+        }
+
+        public async Task<AllWay> GetStations(double startLongitude, double startLatitude, double finishLatitude, double finishLongitude)
+        {
+            Algorithm algorithm = new Algorithm(new Way() {
+                A = new Point() { Latitude = startLatitude, Longitude = startLongitude },
+                B = new Point() { Latitude = finishLatitude, Longitude = finishLongitude }
+            });
+            AllWay way = algorithm.Print();
+            if(way.Sharing != null && way.Parking != null)
+            {
+                var route = _db.Routes.FirstOrDefault(x => x.StartPoint.Latitude == way.Sharing.Latitude && x.StartPoint.Longitude == way.Sharing.Longitude
+                    && x.FinishPoint.Latitude == way.Parking.Latitude && x.FinishPoint.Longitude == way.Parking.Longitude);
+                route.TripCount++;
+                _db.Entry(route);
+                await _db.SaveChangesAsync();
+            }
+            return way;
+        }
+
+        public List<Statistics> GetStatistics()
+        {
+            return GetAllRoutes().Select(x => new Statistics()
+            {
+                A = new Point()
+                {
+                    Latitude = x.StartPoint.Latitude,
+                    Longitude = x.StartPoint.Longitude
+                },
+                B = new Point()
+                {
+                    Latitude = x.FinishPoint.Latitude,
+                    Longitude = x.FinishPoint.Longitude
+                },
+                Count = x.TripCount
+            }).ToList();
         }
     }
 }

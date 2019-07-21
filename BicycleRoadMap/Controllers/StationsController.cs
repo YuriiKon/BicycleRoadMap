@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BicycleRoadMap.Models;
+using BRM.BLL;
 using BRM.BLL.DTOs;
 using BRM.BLL.Interfaces;
 using BRM.BLL.Services;
@@ -25,11 +26,11 @@ namespace BicycleRoadMap.Controllers
             //_mapper = mapper;
         }
 
-        // GET api/stations/5
+        // GET api/stations
         [HttpGet]
-        public string Get(int startLatitude, int startLongitude, int finishLatitude, int finishLongitude)
+        public async Task<AllWay> Get(double startLatitude, double startLongitude, double finishLatitude, double finishLongitude)
         {
-            return "value";
+            return await _service.GetStations(startLatitude, startLongitude,  finishLatitude,  finishLongitude);
         }
 
         // GET api/stations/GetAll
@@ -38,6 +39,15 @@ namespace BicycleRoadMap.Controllers
         public List<BicycleStation> GetAllStations()
         {
             return _service.GetAllStations();
+        }
+
+        [HttpGet]
+        public List<Statistics> GetStatistics()
+        {
+            return _service.GetStatistics()
+                .Take(10)
+                .OrderBy(x => x.Count)
+                .ToList();
         }
 
         // GET api/stations/5
