@@ -442,13 +442,11 @@ angular.module("orsApp").directive("orsMap", () => {
           setSettings();
         };
         $scope.baseLayers = {
-          OpenMapSurfer: mapsurfer,
-          "TopPlus-Web-Open": bkgtopplus,
-          "TopPlus-Web-Open Greyscale": bkgtopplusgrey,
-          OpenStreetMap: openstreetmap,
-          OpenCycleMap: opencyclemap,
-          "Transport Dark": transportdark,
-          Outdoors: outdoors
+          Транспорт: mapsurfer,
+          Пешеход: openstreetmap,
+          Велосипед: opencyclemap
+          // "Transport Dark": transportdark,
+          //Outdoors: outdoors
         };
         $scope.overlays = {
           // "Hillshade": hillshade
