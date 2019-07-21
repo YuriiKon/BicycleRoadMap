@@ -1,0 +1,34 @@
+<div class="ors-route-controls">
+    <div>
+        <button class="ors-controls-button" ng-click="$ctrl.add()" ng-show="$ctrl.showAdd" tooltip-side="right" tooltip-template="{{('ADD' | translate)}}" tooltips="">
+            <i class="fa fa-plus" s="">
+            </i>
+        </button>
+    </div>
+    <div>
+        <button class="ors-controls-button" ng-click="$ctrl.reset()" tooltip-side="top" tooltip-template="{{('RESET' | translate)}}" tooltips="">
+            <i class="fa fa-remove">
+            </i>
+        </button>
+    </div>
+    <div>
+        <button class="ors-controls-button" ng-click="$ctrl.reversing()" tooltip-side="top" tooltip-template="{{('REVERSE' | translate)}}" tooltips="">
+            <i class="fa fa-retweet">
+            </i>
+        </button>
+    </div>
+    <div>
+        <button class="ors-controls-button" ng-click="$ctrl.zoom()" tooltip-side="top" tooltip-template="{{('EXPAND' | translate)}}" tooltips="">
+            <i class="fa fa-expand">
+            </i>
+        </button>
+    </div>
+</div>
+<div class="ors-routing-options container" ng-show="$ctrl.showOptions">
+    <ors-options active-profile="$ctrl.activeProfile" active-subgroup="$ctrl.activeSubgroup" show-options="$ctrl.showOptions">
+    </ors-options>
+</div>
+<ors-modal data-ng-show="$ctrl.showImport" show="$ctrl.showImport">
+    <ors-import-route-controls>
+    </ors-import-route-controls>
+</ors-modal>

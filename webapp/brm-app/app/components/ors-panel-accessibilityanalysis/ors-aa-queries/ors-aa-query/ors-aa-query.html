@@ -1,0 +1,141 @@
+<div class="ors-aa-query">
+    <div class="segment">
+        <div class="summary" ng-mouseout="$ctrl.deEmph();" ng-mouseover="$ctrl.emph();">
+            <div class="ui label tiny block margin-bottom-3" ng-switch="$ctrl.attributes.info.query.range_type">
+                <span ng-bind-html="$ctrl.isochroneIdx + 1">
+                </span>
+                <span ng-bind-html="'-'">
+                </span>
+                <span ng-bind-html="('TIMEDISTANCE' | translate)" ng-switch-when="time">
+                </span>
+                <span ng-bind-html="('DISTANCE' | translate)" ng-switch-when="distance">
+                </span>
+                <div class="detail">
+                    <span ng-bind-html="($ctrl.attributes.info.query.ranges[$ctrl.attributes.info.query.ranges.length-1] | distance:true)" ng-switch-when="distance">
+                    </span>
+                    <span ng-bind-html="$ctrl.attributes.info.query.ranges[$ctrl.attributes.info.query.ranges.length-1]/60" ng-switch-when="time">
+                    </span>
+                    <span ng-bind-html="'min'" ng-switch-when="time">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <span ng-click="$ctrl.remove();">
+                <i ,="" class="fa fa-remove" tooltip-append-to-body="true" tooltip-hide-trigger="click mouseleave" tooltip-side="top" tooltip-template="{{('REMOVE' | translate)}}" tooltips="">
+                </i>
+            </span>
+            <span ng-click="$ctrl.toggle();">
+                <i ng-class="$ctrl.show()" tooltip-append-to-body="true" tooltip-side="top" tooltip-template="{{('TOGGLESHOW' | translate)}}" tooltips="">
+                </i>
+            </span>
+            <span ng-click="$ctrl.zoomTo($ctrl.attributes.info.query.ranges.length-1);">
+                <i class="fa fa-expand" tooltip-append-to-body="true" tooltip-side="top" tooltip-template="{{('EXPAND' | translate)}}" tooltips="">
+                </i>
+            </span>
+            <span ng-click="$ctrl.download();">
+                <i class="fa fa-download" tooltip-append-to-body="true" tooltip-side="top" tooltip-template="{{('DOWNLOAD' | translate)}}" tooltips="">
+                </i>
+            </span>
+            <span ng-click="$ctrl.share();">
+                <i class="fa fa-share-alt" tooltip-append-to-body="true" tooltip-side="top" tooltip-template="{{('SHARE_LINK' | translate)}}" tooltips="">
+                </i>
+            </span>
+        </div>
+    </div>
+    <div class="segment" ng-mouseout="$ctrl.deEmph();" ng-mouseover="$ctrl.emph();">
+        <div class="icon" ng-switch="$ctrl.attributes.info.query.profile">
+            <div ng-switch-when="driving-car">
+                <i class="fa fa-lg fa-car">
+                </i>
+            </div>
+            <div ng-switch-when="cycling-regular|cycling-road|cycling-safe|cycling-mountain|cycling-tour" ng-switch-when-separator="|">
+                <i class="fa fa-lg fa-bicycle">
+                </i>
+            </div>
+            <div ng-switch-when="driving-hgv">
+                <i class="fa fa-lg fa-bus">
+                </i>
+            </div>
+            <div ng-switch-when="wheelchair">
+                <i class="fa fa-lg fa-wheelchair">
+                </i>
+            </div>
+            <div ng-switch-when="foot-walking || foot-hiking">
+                <i class="fa fa-lg fa-male">
+                </i>
+            </div>
+        </div>
+        <div class="waypoint">
+            <h4 ng-bind-html="$ctrl.attributes.info.address">
+            </h4>
+        </div>
+        <div class="opacitySlider">
+            <rzslider rz-slider-model="$ctrl.isochroneOpacitySlider.value" rz-slider-options="$ctrl.isochroneOpacitySlider.options" >
+            </rzslider>
+        </div>
+    </div>
+    <div class="margin-bottom-10 pointer" ng-click="showIsochrones = !showIsochrones">
+        <i ng-class="$ctrl.getClass(showIsochrones)">
+        </i>
+        <span ng-bind-html="('ISOCHRONES' | translate)">
+        </span>
+    </div>
+    <div class="collapsable" ng-class="{ showMe: showIsochrones }">
+        <table class="ui celled teal compact small table">
+            <thead>
+                <tr ng-switch="$ctrl.attributes.info.query.range_type">
+                    <th>
+                        <span ng-bind-html="('RANGE' | translate)">
+                        </span>
+                    </th>
+                    <th>
+                        <span ng-bind-html="('AREA' | translate)">
+                        </span>
+                    </th>
+                    <th ng-switch-when="time">
+                        <span ng-bind-html="('REACHFACTOR' | translate)">
+                        </span>
+                    </th>
+                    <th>
+                        <span ng-bind-html="('TOTALPOP' | translate)"
+                    </th>
+                    <th>
+                        <span>
+                            <i class="fa fa-check"></i>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody align="right">
+                <tr class="pointer" ng-class="{highlight: hover}" ng-click="$ctrl.zoomTo($index); $event.stopPropagation();" ng-mouseout="$ctrl.deEmph(); hover=false;" ng-mouseover="$ctrl.emph($index); hover=true;" ng-repeat="isochrone in $ctrl.attributes.info.query.ranges" ng-switch="$ctrl.attributes.info.query.range_type">
+                    <td>
+                        <span ng-bind-html="(isochrone | distance:true)" ng-switch-when="distance">
+                        </span>
+                        <span ng-bind-html="(isochrone/60)" ng-switch-when="time">
+                        </span>
+                        <span ng-bind-html="'min'" ng-switch-when="time">
+                        </span>
+                    </td>
+                    <td>
+                        <span ng-bind-html="($ctrl.attributes.features[$index].properties.area | area)">
+                        </span>
+                    </td>
+                    <td ng-switch-when="time">
+                        <span ng-bind-html="($ctrl.attributes.features[$index].properties.reachfactor | number: 2)">
+                        </span>
+                    </td>
+                    <td>
+                        <span ng-bind-html="($ctrl.attributes.features[$index].properties.total_pop)">
+                        </span>
+                    </td>
+                    <td>
+                        <span ng-click="$ctrl.deEmph(); $ctrl.toggleInterval($index, $event, ctrl.showIntervals[$index]);">
+                        <i ng-class="$ctrl.showIntervals[$index] ? 'fa fa-toggle-on': 'fa fa-toggle-off'"></i>
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

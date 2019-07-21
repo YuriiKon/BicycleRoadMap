@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Openrouteservice Maps</title>
+    <base href="/">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type"></meta>
+    <meta name="description" content="Openrouteservice is a open source route planner with plenty of features for car, heavy vehicles, hiking and cycling."/>
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <!-- build:css(.) vendor.css -->
+    <link href="bower_components/angularjs-slider/dist/rzslider.css" rel="stylesheet"></link>
+    <link href="bower_components/angular-loading-bar/build/loading-bar.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/reset.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/input.css" rel="stylesheet"></link>
+
+    <link href="bower_components/semantic/dist/components/button.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/divider.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/list.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/dropdown.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/checkbox.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/label.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/form.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/grid.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/message.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/table.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/loader.css" rel="stylesheet"></link>
+    <link href="bower_components/semantic/dist/components/form.css" rel="stylesheet"></link>
+
+    <link href="bower_components/angular-tooltips/dist/angular-tooltips.css" rel="stylesheet" type="text/css" />
+    <link href="node_modules/leaflet/dist/leaflet.css" rel="stylesheet"></link>
+    <link href="bower_components/leaflet-measure/dist/leaflet-measure.css" rel="stylesheet"></link>
+    <link href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" rel="stylesheet"></link>
+    <link href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" rel="stylesheet"></link>
+    <link href="bower_components/leaflet-distance-markers/leaflet-distance-marker.css" rel="stylesheet"></link>
+    <!-- endbuild -->
+    <!-- these scripts remain unbuilt as they contain relative paths -->
+    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet"></link>
+    <link href="bower_components/leaflet.heightgraph/src/L.Control.Heightgraph.css" rel="stylesheet"></link>
+    <!-- build:css main.css -->
+    <link href="css/ors-landmark.css" rel="stylesheet"></link>
+    <link href="css/ors-layout.css" rel="stylesheet"></link>
+    <link href="css/ors-sidebar-outlet.css" rel="stylesheet"></link>
+    <link href="css/ors-panel-isochrones.css" rel="stylesheet"></link>
+    <link href="css/ors-panel-routing.css" rel="stylesheet"></link>
+    <link href="css/ors-locations.css" rel="stylesheet"></link>
+    <link href="css/ors-tooltips.css" rel="stylesheet"></link>
+    <link href="css/ors-error.css" rel="stylesheet"></link>
+    <link href="css/ors-extras.css" rel="stylesheet"></link>
+    <link href="css/ors-common.css" rel="stylesheet"></link>
+    <link href="css/ors-header.css" rel="stylesheet"></link>
+    <link href="css/ors-icons.css" rel="stylesheet"></link>
+    <link href="css/ors-nav-profiles.css" rel="stylesheet"></link>
+    <link href="css/ors-instructions.css" rel="stylesheet"></link>
+    <link href="css/ors-leaflet.css" rel="stylesheet"></link>
+    <link href="css/ors-loading.css" rel="stylesheet"></link>
+    <link href="css/ors-modal.css" rel="stylesheet"></link>
+    <link href="css/ors-addresses.css" rel="stylesheet"></link>
+    <!-- endbuild -->
+    </meta>
+</head>
+<body>
+     <!-- BEGIN: App-Loading Screen. -->
+    <div class="ors-app-loading" ng-if="::false">
+        <!-- BEGIN: Actual animated container. -->
+        <div class="animated-container">
+            <div class="messaging">
+                <p>
+                    <img height="auto" src="img/logo@2x.png" width="200px"/>
+                </p>
+                <p>
+                    <div class="ui active centered inline loader"></div>
+                </p>
+            </div>
+        </div>
+        <!-- END: Actual animated container. -->
+    </div>
+    <!-- END: App-Loading Screen. -->
+    <div class="ors-main" ng-controller="RootController as root">
+        <div class="ors-left">
+            <ors-header class="ors-header"></ors-header>
+            <ors-sidebar class="ors-sidebar" ors-map="root.myOrsMap"></ors-sidebar>
+        </div>
+        <ors-map id="map" class="ors-right" ors-map="root.myOrsMap"></ors-map>
+    </div>
+</body>
+<!-- @if DEBUG -->
+<!-- @endif -->
+<!-- start auto template tags -->
+<!-- end auto template tags -->
+<!-- build:js(.) vendor.js -->
+<script src="bower_components/rxjs/dist/rx.lite.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/jquery-ui/jquery-ui.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-translate/angular-translate.js"></script>
+<script src="bower_components/ng-focus-if/focusIf.min.js"></script>
+<script src="bower_components/clipboard/dist/clipboard.min.js"></script>
+<script src="bower_components/ngclipboard/dist/ngclipboard.min.js"></script>
+<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script src="node_modules/@angular/router/angular1/angular_1_router.js"></script>
+<script src="node_modules/geojson/geojson.min.js"></script>
+<script src="node_modules/togpx/togpx.js"></script>
+<script src="node_modules/xml-js/dist/xml-js.min.js"></script>
+<script src="node_modules/tokml/tokml.js"></script>
+<script src="node_modules/leaflet-omnivore/leaflet-omnivore.min.js"></script>
+<script src="node_modules/turf.js" type="text/javascript"></script>
+<script src="node_modules/leaflet/dist/leaflet.js"></script>
+<script src="bower_components/leaflet-measure/dist/leaflet-measure.js"></script>
+<script src="node_modules/leaflet-control-angular/src/L.Control.Angular.js"></script>
+<script src="node_modules/leaflet-geometryutil/src/leaflet.geometryutil.js"></script>
+<script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+<script src="bower_components/leaflet.editable/src/Leaflet.Editable.js"></script>
+<script src="bower_components/leaflet.heightgraph/src/L.Control.Heightgraph.js"></script>
+<script src="bower_components/leaflet.locatecontrol/src/L.Control.Locate.js" charset="utf-8"></script>
+<script src="bower_components/leaflet-distance-markers/leaflet-distance-marker.js" charset="utf-8"></script>
+<script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+<script src="bower_components/angular-ui-sortable/sortable.js"></script>
+<script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
+<script src="bower_components/d3/d3.js"></script>
+<script src="bower_components/d3-tip/index.js"></script>
+<script src="node_modules/d3-interpolate/build/d3-interpolate.js"></script>
+<script src="node_modules/d3-color/build/d3-color.js"></script>
+<script src="node_modules/d3-scale-chromatic/dist/d3-scale-chromatic.js"></script>
+<script src="bower_components/vkBeautify/vkbeautify.js" type="text/javascript"></script>
+<script src="bower_components/angular-file-saver/dist/angular-file-saver.bundle.js" type="text/javascript"></script>
+<script src="bower_components/angular-tooltips/dist/angular-tooltips.js"></script>
+<!-- endbuild -->
+<!-- build:js scripts.js -->
+<script src="js/app.js"></script>
+<script src="js/filters.js"></script>
+<script src="js/config.js"></script>
+<script src="js/templates.js"></script>
+<script src="constants/namespaces.js"></script>
+<script src="constants/lists.js"></script>
+<script src="constants/countries.js"></script>
+<script src="constants/carBrands.js"></script>
+<script src="constants/carCategories.js"></script>
+<script src="constants/mappings.js"></script>
+<script src="values/globals.js"></script>
+<script src="infrastructure/ors-settings-service.js"></script>
+<script src="infrastructure/ors-objects-service.js"></script>
+<script src="infrastructure/ors-map-service.js"></script>
+<script src="infrastructure/ors-request-service.js"></script>
+<script src="infrastructure/ors-utils-service.js"></script>
+<script src="infrastructure/ors-messaging-service.js"></script>
+<script src="infrastructure/ors-params-service.js"></script>
+<script src="infrastructure/ors-route-service.js"></script>
+<script src="infrastructure/ors-landmark-service.js"></script>
+<script src="infrastructure/ors-aa-service.js"></script>
+<script src="infrastructure/ors-cookies-service.js"></script>
+<script src="infrastructure/ors-importexport-service.js"></script>
+<script src="infrastructure/ors-locations-service.js"></script>
+<script src="infrastructure/ors-fuel-service.js"></script>
+<script src="infrastructure/ors-apikey-factory.js"></script>
+<script src="components/ors-navigation/ors-nav.js"></script>
+<script src="components/ors-panel-routing/ors-panel-routing.js"></script>
+<script src="components/ors-panel-routing/ors-waypoints/ors-waypoints.js"></script>
+<script src="components/ors-panel-routing/ors-waypoints/ors-waypoint/ors-waypoint.js"></script>
+<script src="components/ors-panel-routing/ors-summary/ors-summary.js"></script>
+<script src="components/ors-panel-routing/ors-waypoints/ors-route-controls/ors-route-controls.js"></script>
+<script src="components/ors-panel-routing/ors-waypoints/ors-route-controls/ors-options/ors-options.js"></script>
+<script src="components/ors-panel-routing/ors-instructions/ors-instructions.js"></script>
+<script src="components/ors-panel-routing/ors-addresses/ors-addresses.js"></script>
+<script src="components/ors-panel-routing/ors-route-extras/ors-route-extras.js"></script>
+<script src="components/ors-panel-routing/ors-route-extras/ors-bars-chart/ors-bars-chart.js"></script>
+<script src="components/ors-panel-routing/ors-route-extras/ors-route-extras-map/ors-route-extras-map.js"></script>
+<script src="components/ors-profiles-options/ors-profiles-options.js"></script>
+<script src="components/ors-share/ors-share.js"></script>
+<script src="components/ors-panel-accessibilityanalysis/ors-panel-accessibilityanalysis.js"></script>
+<script src="components/ors-panel-accessibilityanalysis/ors-aa-controls/ors-aa-controls.js"></script>
+<script src="components/ors-panel-accessibilityanalysis/ors-aa-waypoints/ors-aa-waypoints.js"></script>
+<script src="components/ors-panel-accessibilityanalysis/ors-aa-waypoints/ors-aa-waypoint/ors-aa-waypoint.js"></script>
+<script src="components/ors-panel-accessibilityanalysis/ors-aa-sliders/ors-aa-sliders.js"></script>
+<script src="components/ors-panel-accessibilityanalysis/ors-aa-queries/ors-export-query/ors-export-query.js"></script>
+<script src="components/ors-panel-accessibilityanalysis/ors-aa-queries/ors-aa-queries.js"></script>
+<script src="components/ors-panel-accessibilityanalysis/ors-aa-queries/ors-aa-query/ors-aa-query.js"></script>
+<script src="components/ors-header/ors-header.js"></script>
+<script src="components/ors-error/ors-error.js"></script>
+<script src="components/ors-loading/ors-loading.js"></script>
+<script src="components/ors-modal/ors-modal.js"></script>
+<script src="components/ors-panel-routing/ors-export-route/ors-export-route.js"></script>
+<script src="components/ors-panel-routing/ors-import-route/ors-import-route.js"></script>
+<script src="components/ors-map/ors-map.js"></script>
+<!-- endbuild -->
+</html>

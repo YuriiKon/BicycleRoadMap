@@ -1,0 +1,29 @@
+//creates fa-rotate objects for n - 1 objects 
+.fa-rotation(@n, @i: 1, @part: (360 / @n * @i), @deg : unit(@part, deg)) when (@i =< @n - 1) { 
+    .fa-rotate-@{part} {
+        -webkit-transform: rotate(@deg);
+        -moz-transform: rotate(@deg);
+        -ms-transform: rotate(@deg);
+        -o-transform: rotate(@deg);
+        transform: rotate(@deg);
+    }
+    .fa-rotation(@n, (@i + 1))
+}
+
+.fa-rotation(8);
+
+.fa-flip {
+	-webkit-transform: scale(1, -1);
+	-moz-transform: scale(1, -1);
+	-ms-transform: scale(1, -1);
+	-o-transform: scale(1, -1);
+	transform: scale(1, -1);
+}
+
+.fa-mirror {
+	-webkit-transform: scale(-1, 1);
+	-moz-transform: scale(-1, 1);
+	-ms-transform: scale(-1, 1);
+	-o-transform: scale(-1, 1);
+	transform: scale(-1, 1);
+}

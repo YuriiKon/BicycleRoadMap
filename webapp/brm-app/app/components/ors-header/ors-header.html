@@ -1,0 +1,15 @@
+<ul>
+    <li style="float: left">
+        <a class="brand" href="#">
+            <img ng-src="img/logo.png"/>
+        </a>
+    </li>
+</ul>
+<ors-modal data-ng-if="$ctrl.showSettings" show="$ctrl.showSettings">
+    <div ng-include="'includes/settings.html'">
+    </div>
+</ors-modal>
+<ors-modal data-ng-if="$ctrl.showInfo" show="$ctrl.showInfo">
+    <div ng-include="'includes/info.html'">
+    </div>
+</ors-modal>
